@@ -1,3 +1,5 @@
+#See possible options in mindustry.mod.Mods.Mods.toString()
+
 #the mod name as displayed in-game
 displayName: "Java Mod Template"
 
@@ -21,3 +23,5 @@ minGameVersion: 145
 
 #this is a java mod
 java: true
+
+hidden: true
