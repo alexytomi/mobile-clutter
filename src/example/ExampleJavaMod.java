@@ -30,6 +30,12 @@ public class ExampleJavaMod extends Mod {
     createInGameGroup();
     Core.scene.add(this.mobileUI);
     Log.info(mobileUI);
+
+    Events.on(ResetEvent.class, clearCoreItemsDisplay -> {
+      coreItemsDisplay.resetUsed();
+      coreItemsDisplay.clear();
+    });
+
     // TODO: Add a warning message that this mod is only intended for mobile and may
     // break things on other platforms
     // Events.on(ClientLoadEvent.class, null);
@@ -40,14 +46,12 @@ public class ExampleJavaMod extends Mod {
     Log.info("Loading UI stuff");
     // don't mind me blatantly copying code from HudFragment on how it builds the
     // coreinfo table
-    Events.run(Trigger.update, () -> {
 
-      // Log.info("update");
-      this.mobileUI.fill(mobileUI -> {
-        mobileUIProperties(mobileUI);
-        buildCoreItemsDisplay(mobileUI);
+    // Log.info("update");
+    this.mobileUI.fill(mobileUI -> {
+      mobileUIProperties(mobileUI);
+      buildCoreItemsDisplay(mobileUI);
 
-      });
     });
 
   }
