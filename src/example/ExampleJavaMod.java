@@ -17,11 +17,11 @@ import mindustry.ui.*;
 import mindustry.ui.fragments.HudFragment;
 import mindustry.Vars;
 import mindustry.Vars.*;
-
+import mindustry.world.blocks.power.PowerGraph;
 public class ExampleJavaMod extends Mod {
   WidgetGroup mobileUI = new WidgetGroup();
   CoreItemsDisplay coreItemsDisplay = new CoreItemsDisplay();
-
+  Bar bar = new Bar();  
   public void init() {
     Log.info("Loaded ExampleJavaMod constructor.");
     this.mobileUI.visibility = (() -> true);
@@ -30,7 +30,6 @@ public class ExampleJavaMod extends Mod {
     createInGameGroup();
     Core.scene.add(this.mobileUI);
     Log.info(mobileUI);
-
     Events.on(ResetEvent.class, clearCoreItemsDisplay -> {
       coreItemsDisplay.resetUsed();
       coreItemsDisplay.clear();
@@ -44,8 +43,7 @@ public class ExampleJavaMod extends Mod {
 
   private void createInGameGroup() {
     Log.info("Loading UI stuff");
-    // don't mind me blatantly copying code from HudFragment on how it builds the
-    // coreinfo table
+    
 
     // Log.info("update");
     this.mobileUI.fill(mobileUI -> {
@@ -55,7 +53,8 @@ public class ExampleJavaMod extends Mod {
     });
 
   }
-
+    // don't mind me blatantly copying code from HudFragment on how it builds the
+    // coreinfo table
   private void mobileUIProperties(Table mobileUI) {
     // for future me, this is where you put your UI stuff so they go in the mobileUI
     // WidgetGroup instead of hudGroup which IMO is jank. Maybe make another
@@ -84,6 +83,13 @@ public class ExampleJavaMod extends Mod {
       // enable Core Items Info instead
       // of always setting this to true
     }).row();
+  }//TODO: Continue tring to make a powerbar UI that can be dragged around
+  private void buildPowerBar(Table mobileUI) {
+    mobileUI.collapser(v -> v.add().height(36f), () -> Vars.state.isPaused() && !Vars.netServer.isWaitingForPlayers())
+        .row();
+    mobileUI.table(coreItemsUI -> {
+      
+      coreItemsUI.top().collapser(coreItemsDisplay, () -> Vars.state.isGame()).fillX().row(); 
+    }).row();
   }
-
 }
