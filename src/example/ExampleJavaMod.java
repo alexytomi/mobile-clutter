@@ -19,7 +19,6 @@ import mindustry.Vars;
 import mindustry.Vars.*;
 
 public class ExampleJavaMod extends Mod {
-  GameState state = new GameState();
   WidgetGroup mobileUI = new WidgetGroup();
   CoreItemsDisplay coreItemsDisplay = new CoreItemsDisplay();
 
@@ -43,7 +42,7 @@ public class ExampleJavaMod extends Mod {
     // coreinfo table
     Events.run(Trigger.update, () -> {
 
-      Log.info("update");
+      // Log.info("update");
       this.mobileUI.fill(mobileUI -> {
         mobileUIProperties(mobileUI);
         buildCoreItemsDisplay(mobileUI);
@@ -65,17 +64,21 @@ public class ExampleJavaMod extends Mod {
     // pauseHeight is 36f according to
     // mindustry.ui.fragments.HudFragment.pauseheght. It is private and final so I
     // cannot call it.
+    this.mobileUI.addChild(coreItemsDisplay);
+
   }
 
   private void buildCoreItemsDisplay(Table mobileUI) {
-    this.mobileUI.addChild(coreItemsDisplay);
-    mobileUI.collapser(v -> v.add().height(36f), () -> state.isPaused() && !Vars.netServer.isWaitingForPlayers())
+    mobileUI.collapser(v -> v.add().height(36f), () -> Vars.state.isPaused() && !Vars.netServer.isWaitingForPlayers())
         .row();
     mobileUI.table(coreItemsUI -> {
-      Log.info("Loading core UI stuff");// core items
-      coreItemsUI.top().collapser(coreItemsDisplay, () -> true).fillX().row(); // TODO: Add a config option to
-                                                                               // enable Core Items Info instead
-                                                                               // of always setting this to true
+      // Log.info("State.isGame:" + Vars.state.isGame());// core items
+      coreItemsUI.top().collapser(coreItemsDisplay, () -> Vars.state.isGame()).fillX().row(); // TODO: Add a config
+                                                                                              // option
+                                                                                              // option
+      // to
+      // enable Core Items Info instead
+      // of always setting this to true
     }).row();
   }
 
